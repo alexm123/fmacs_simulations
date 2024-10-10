@@ -324,6 +324,108 @@ knitr::kable(emp_mad_table, caption = "Empirical MAD for Naive, BC Bootstrap, an
 
 ```
 
+```{r}
+bias_plot_2 <- ggplot(data, aes(x = n)) +
+  geom_line(aes(y = bias.naive2, color = "Naive Bias 2")) +
+  geom_point(aes(y = bias.naive2, color = "Naive Bias 2")) +
+  geom_line(aes(y = bias.bc_boot2, color = "BC Bootstrap Bias 2")) +
+  geom_point(aes(y = bias.bc_boot2, color = "BC Bootstrap Bias 2")) +
+  geom_line(aes(y = bias.bc_form2, color = "Bias-Corrected Form 2")) +
+  geom_point(aes(y = bias.bc_form2, color = "Bias-Corrected Form 2")) +
+  labs(title = "Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+       x = "Sample Size", y = "Bias") +
+  scale_color_manual(values = c("Naive Bias 2" = "blue",
+                                "BC Bootstrap Bias 2" = "green",
+                                "Bias-Corrected Form 2" = "red")) +
+  theme_minimal()
+bias_plot_2
+
+
+robust_bias_plot_2 <- ggplot(data, aes(x = n)) +
+  geom_line(aes(y = robust_bias.naive2, color = "Robust Naive Bias 2")) +
+  geom_point(aes(y = robust_bias.naive2, color = "Robust Naive Bias 2")) +
+  geom_line(aes(y = robust_bias.bc_boot2, color = "Robust BC Bootstrap Bias 2")) +
+  geom_point(aes(y = robust_bias.bc_boot2, color = "Robust BC Bootstrap Bias 2")) +
+  geom_line(aes(y = robust_bias.bc_form2, color = "Robust Bias-Corrected Form 2")) +
+  geom_point(aes(y = robust_bias.bc_form2, color = "Robust Bias-Corrected Form 2")) +
+  labs(title = "Robust Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+       x = "Sample Size", y = "Robust Bias") +
+  scale_color_manual(values = c("Robust Naive Bias 2" = "blue",
+                                "Robust BC Bootstrap Bias 2" = "green",
+                                "Robust Bias-Corrected Form 2" = "red")) +
+  theme_minimal()
+robust_bias_plot_2
+
+
+emp_sd_plot_2 <- ggplot(data, aes(x = n)) +
+  geom_line(aes(y = emp_sd.naive2, color = "Empirical SD Naive 2")) +
+  geom_point(aes(y = emp_sd.naive2, color = "Empirical SD Naive 2")) +
+  geom_line(aes(y = emp_sd.bc_boot2, color = "Empirical SD BC Bootstrap 2")) +
+  geom_point(aes(y = emp_sd.bc_boot2, color = "Empirical SD BC Bootstrap 2")) +
+  geom_line(aes(y = emp_sd.bc_form2, color = "Empirical SD Bias-Corrected 2")) +
+  geom_point(aes(y = emp_sd.bc_form2, color = "Empirical SD Bias-Corrected 2")) +
+  labs(title = "Empirical SD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+       x = "Sample Size", y = "Empirical SD") +
+  scale_color_manual(values = c("Empirical SD Naive 2" = "blue",
+                                "Empirical SD BC Bootstrap 2" = "green",
+                                "Empirical SD Bias-Corrected 2" = "red")) +
+  theme_minimal()
+emp_sd_plot_2
+
+
+emp_mad_plot_2 <- ggplot(data, aes(x = n)) +
+  geom_line(aes(y = emp_mad.naive2, color = "Empirical MAD Naive 2")) +
+  geom_point(aes(y = emp_mad.naive2, color = "Empirical MAD Naive 2")) +
+  geom_line(aes(y = emp_mad.bc_boot2, color = "Empirical MAD BC Bootstrap 2")) +
+  geom_point(aes(y = emp_mad.bc_boot2, color = "Empirical MAD BC Bootstrap 2")) +
+  geom_line(aes(y = emp_mad.bc_form2, color = "Empirical MAD Bias-Corrected 2")) +
+  geom_point(aes(y = emp_mad.bc_form2, color = "Empirical MAD Bias-Corrected 2")) +
+  labs(title = "Empirical MAD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+       x = "Sample Size", y = "Empirical MAD") +
+  scale_color_manual(values = c("Empirical MAD Naive 2" = "blue",
+                                "Empirical MAD BC Bootstrap 2" = "green",
+                                "Empirical MAD Bias-Corrected 2" = "red")) +
+  theme_minimal()
+emp_mad_plot_2
+
+```
+
+```{r}
+bias_table_2 <- data.frame(
+  SampleSize = data$n,
+  Bias_Naive2 = data$bias.naive2,
+  Bias_BC_Boot2 = data$bias.bc_boot2,
+  Bias_BC_Form2 = data$bias.bc_form2
+)
+
+robust_bias_table_2 <- data.frame(
+  SampleSize = data$n,
+  Robust_Bias_Naive2 = data$robust_bias.naive2,
+  Robust_Bias_BC_Boot2 = data$robust_bias.bc_boot2,
+  Robust_Bias_BC_Form2 = data$robust_bias.bc_form2
+)
+
+emp_sd_table_2 <- data.frame(
+  SampleSize = data$n,
+  Empirical_SD_Naive2 = data$emp_sd.naive2,
+  Empirical_SD_BC_Boot2 = data$emp_sd.bc_boot2,
+  Empirical_SD_BC_Form2 = data$emp_sd.bc_form2
+)
+
+emp_mad_table_2 <- data.frame(
+  SampleSize = data$n,
+  Empirical_MAD_Naive2 = data$emp_mad.naive2,
+  Empirical_MAD_BC_Boot2 = data$emp_mad.bc_boot2,
+  Empirical_MAD_BC_Form2 = data$emp_mad.bc_form2
+)
+
+# Create and display tables using knitr
+knitr::kable(bias_table_2, caption = "Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
+knitr::kable(robust_bias_table_2, caption = "Robust Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
+knitr::kable(emp_sd_table_2, caption = "Empirical Standard Deviation for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
+knitr::kable(emp_mad_table_2, caption = "Empirical MAD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
+
+```
 
 
 
