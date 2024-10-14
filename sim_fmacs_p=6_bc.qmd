@@ -21,7 +21,7 @@ library(SimDesign)
 
 # Define conditions: Testing different sample sizes
 design <- createDesign(
-  n = c(30, 100, 250, 1000, 5000)
+  n = c(30, 100, 250, 1000)
 )
 
 # Fixed objects
@@ -200,18 +200,20 @@ evaluate <- function(condition, results, fixed_objects) {
 
 ```{r}
 out <- runSimulation(design,
-                     replications = 250,
-                     parallel = TRUE,
-                     generate = generate,
-                     analyse = list(naive = analyze,
-                                    bc_boot = analyze_bc,
-                                    bc_form = analyze_bc2),
-                     summarise = evaluate,
-                     filename = "results-trial-bc",
-                     packages = c("MASS", "lavaan", "pinsearch"),
-                     fixed_objects = fixed
-)
-data <- readRDS("results-trial-bc.rds")
+                      replications = 500,
+                      parallel = TRUE,
+                      ncores = parallelly::availableCores(omit = 3L),
+                      generate = generate,
+                      analyse = list(naive = analyze,
+                                     bc_boot = analyze_bc,
+                                     bc_form = analyze_bc2),
+                      summarise = evaluate,
+                      filename = "results-trial-bc",
+                      packages = c("MASS", "lavaan", "pinsearch"),
+                      fixed_objects = fixed,
+                      save_results = TRUE)
+
+data <- readRDS("C:/Users/alex/OneDrive/Desktop/results-trial-bc.rds")
 ```
 
 Graphs to visualize simulation results
@@ -332,7 +334,7 @@ bias_plot_2 <- ggplot(data, aes(x = n)) +
   geom_point(aes(y = bias.bc_boot2, color = "BC Bootstrap Bias 2")) +
   geom_line(aes(y = bias.bc_form2, color = "Bias-Corrected Form 2")) +
   geom_point(aes(y = bias.bc_form2, color = "Bias-Corrected Form 2")) +
-  labs(title = "Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+  labs(title = "Bias (V2)",
        x = "Sample Size", y = "Bias") +
   scale_color_manual(values = c("Naive Bias 2" = "blue",
                                 "BC Bootstrap Bias 2" = "green",
@@ -348,7 +350,7 @@ robust_bias_plot_2 <- ggplot(data, aes(x = n)) +
   geom_point(aes(y = robust_bias.bc_boot2, color = "Robust BC Bootstrap Bias 2")) +
   geom_line(aes(y = robust_bias.bc_form2, color = "Robust Bias-Corrected Form 2")) +
   geom_point(aes(y = robust_bias.bc_form2, color = "Robust Bias-Corrected Form 2")) +
-  labs(title = "Robust Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+  labs(title = "Robust Bias (V2)",
        x = "Sample Size", y = "Robust Bias") +
   scale_color_manual(values = c("Robust Naive Bias 2" = "blue",
                                 "Robust BC Bootstrap Bias 2" = "green",
@@ -364,7 +366,7 @@ emp_sd_plot_2 <- ggplot(data, aes(x = n)) +
   geom_point(aes(y = emp_sd.bc_boot2, color = "Empirical SD BC Bootstrap 2")) +
   geom_line(aes(y = emp_sd.bc_form2, color = "Empirical SD Bias-Corrected 2")) +
   geom_point(aes(y = emp_sd.bc_form2, color = "Empirical SD Bias-Corrected 2")) +
-  labs(title = "Empirical SD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+  labs(title = "Empirical SD (V2)",
        x = "Sample Size", y = "Empirical SD") +
   scale_color_manual(values = c("Empirical SD Naive 2" = "blue",
                                 "Empirical SD BC Bootstrap 2" = "green",
@@ -380,7 +382,7 @@ emp_mad_plot_2 <- ggplot(data, aes(x = n)) +
   geom_point(aes(y = emp_mad.bc_boot2, color = "Empirical MAD BC Bootstrap 2")) +
   geom_line(aes(y = emp_mad.bc_form2, color = "Empirical MAD Bias-Corrected 2")) +
   geom_point(aes(y = emp_mad.bc_form2, color = "Empirical MAD Bias-Corrected 2")) +
-  labs(title = "Empirical MAD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)",
+  labs(title = "Empirical MAD (V2)",
        x = "Sample Size", y = "Empirical MAD") +
   scale_color_manual(values = c("Empirical MAD Naive 2" = "blue",
                                 "Empirical MAD BC Bootstrap 2" = "green",
@@ -420,12 +422,27 @@ emp_mad_table_2 <- data.frame(
 )
 
 # Create and display tables using knitr
-knitr::kable(bias_table_2, caption = "Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
-knitr::kable(robust_bias_table_2, caption = "Robust Bias for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
-knitr::kable(emp_sd_table_2, caption = "Empirical Standard Deviation for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
-knitr::kable(emp_mad_table_2, caption = "Empirical MAD for Naive, BC Bootstrap, and Bias-Corrected across Sample Sizes (V2)")
+knitr::kable(bias_table_2, caption = "Bias V2")
+knitr::kable(robust_bias_table_2, caption = "Robust Bias V2")
+knitr::kable(emp_sd_table_2, caption = "Empirical Standard Deviation V2")
+knitr::kable(emp_mad_table_2, caption = "Empirical MAD V2")
 
 ```
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
+
+
 
 
 
